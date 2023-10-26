@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ChangeEvent, Component, ReactNode } from 'react';
+import './App.scss';
+import ResultSection from './components/ResultsSection';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface MyState {
+  inputString: string;
+  searchString: string;
 }
 
-export default App
+class App extends Component<unknown, MyState> {
+  state = {
+    inputString: '',
+    searchString: '',
+  };
+
+  onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
+    this.setState({ inputString: e.target.value });
+  };
+
+  onClickButton = () => {
+    this.setState({ searchString: this.state.inputString });
+  };
+
+  render(): ReactNode {
+    return (
+      <>
+        <section className="search">
+          <input type="text" onChange={this.onChangeInput} />
+          <button type="button" onClick={this.onClickButton}>
+            search
+          </button>
+        </section>
+        <ResultSection searchName={this.state.searchString} />
+      </>
+    );
+  }
+}
+
+export default App;
