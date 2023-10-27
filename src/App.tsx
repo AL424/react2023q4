@@ -9,23 +9,29 @@ interface MyState {
 
 class App extends Component<unknown, MyState> {
   state = {
-    inputString: '',
-    searchString: '',
+    inputString: localStorage.getItem('searchString') || '',
+    searchString: localStorage.getItem('searchString') || '',
   };
 
-  onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ inputString: e.target.value });
+  onChangeInput = async (e: ChangeEvent<HTMLInputElement>) => {
+    await this.setState({ inputString: e.target.value });
   };
 
-  onClickButton = () => {
-    this.setState({ searchString: this.state.inputString });
+  onClickButton = async () => {
+    await this.setState({ searchString: this.state.inputString.trim() });
+    localStorage.setItem('searchString', this.state.searchString);
   };
 
   render(): ReactNode {
     return (
       <>
         <section className="search">
-          <input type="text" onChange={this.onChangeInput} />
+          <input
+            type="text"
+            placeholder="enter film name..."
+            value={this.state.inputString}
+            onChange={this.onChangeInput}
+          />
           <button type="button" onClick={this.onClickButton}>
             search
           </button>
