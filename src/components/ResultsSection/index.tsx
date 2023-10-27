@@ -9,32 +9,44 @@ interface MyProps {
 
 interface MyState {
   filmsInfo: FilmInfo[];
+  loading: boolean;
 }
 
 class ResultSection extends Component<MyProps, MyState> {
   state = {
     filmsInfo: [],
+    loading: true,
+  };
+
+  getFilmsInfo = async () => {
+    const data = await getResults(this.props.searchName);
+    await this.setState({
+      filmsInfo: data,
+      loading: false,
+    });
   };
 
   componentDidMount = async () => {
-    const data = await getResults(this.props.searchName);
-    this.setState({ filmsInfo: data });
+    this.getFilmsInfo();
   };
 
   componentDidUpdate = async (prevProps: Readonly<MyProps>) => {
     if (prevProps.searchName !== this.props.searchName) {
-      const data = await getResults(this.props.searchName);
-      this.setState({ filmsInfo: data });
+      await this.setState({ loading: true });
+      this.getFilmsInfo();
     }
   };
 
   render(): ReactNode {
     return (
       <section>
-        <h2>{this.props.searchName || 'запрос не введен'}</h2>
-        {this.state.filmsInfo.map((film) => {
-          return <FilmCard film={film} key={film.id} />;
-        })}
+        {this.state.loading ? (
+          <span>Searching...</span>
+        ) : (
+          this.state.filmsInfo.map((film) => {
+            return <FilmCard film={film} key={film.id} />;
+          })
+        )}
       </section>
     );
   }
