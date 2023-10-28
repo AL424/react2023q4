@@ -39,7 +39,7 @@ class ResultSection extends Component<MyProps, MyState> {
 
   render(): ReactNode {
     return (
-      <section>
+      <section className="result-section">
         {this.state.loading ? (
           <span>Searching...</span>
         ) : (
