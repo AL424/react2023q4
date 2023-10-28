@@ -2,6 +2,7 @@ import { Component, ReactNode } from 'react';
 import { getResults } from '../../services/kpApi';
 import { FilmInfo } from '../../types/kp';
 import { FilmCard } from '../FilmCard';
+import './index.scss';
 
 interface MyProps {
   searchName?: string;
@@ -41,7 +42,7 @@ class ResultSection extends Component<MyProps, MyState> {
     return (
       <section className="result-section">
         {this.state.loading ? (
-          <span>Searching...</span>
+          <span className="loader">Searching...</span>
         ) : (
           this.state.filmsInfo.map((film) => {
             return <FilmCard film={film} key={film.id} />;

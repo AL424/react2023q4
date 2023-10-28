@@ -1,0 +1,12 @@
+.result-section {
+  padding: 20px 0;
+
+  .loader {
+    display: block;
+    text-align: center;
+  }
+
+  .film-card:not(:last-of-type) {
+    margin-bottom: 20px;
+  }
+}
