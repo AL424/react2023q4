@@ -10,7 +10,7 @@ export const getResults = async (name?: string) => {
       },
       params: {
         name: name || undefined,
-        selectFields: 'id name description year poster.url',
+        selectFields: 'id name description year poster.url type genres',
         limit: 10,
       },
     }

@@ -2,6 +2,8 @@ export interface FilmInfo {
   id: number;
   name: string;
   description?: string;
+  type?: string;
+  genres?: Array<{ name: string }>;
   year?: number;
   poster?: {
     url: string;
