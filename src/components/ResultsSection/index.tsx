@@ -13,7 +13,7 @@ interface MyState {
 }
 
 class ResultSection extends Component<MyProps, MyState> {
-  state = {
+  state: MyState = {
     filmsInfo: [],
     loading: true,
   };
