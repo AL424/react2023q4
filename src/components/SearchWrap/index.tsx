@@ -1,5 +1,6 @@
 import { ChangeEvent, Component, ReactNode } from 'react';
 import ResultSection from '../ResultsSection';
+import './index.scss';
 
 interface MyState {
   inputString: string;
@@ -23,7 +24,7 @@ export class SearchWrap extends Component<unknown, MyState> {
 
   render(): ReactNode {
     return (
-      <main>
+      <main className="search-wrap">
         <section className="search-section">
           <input
             type="text"
