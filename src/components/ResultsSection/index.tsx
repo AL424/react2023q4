@@ -1,4 +1,4 @@
-import { Component, ReactNode } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { getResults } from '../../services/kpApi';
 import { FilmInfo } from '../../types/kp';
 import { FilmCard } from '../FilmCard';
@@ -8,49 +8,28 @@ interface MyProps {
   searchName?: string;
 }
 
-interface MyState {
-  filmsInfo: FilmInfo[];
-  loading: boolean;
-}
+export const ResultSection: FC<MyProps> = ({ searchName }) => {
+  const [loading, setLoading] = useState(true);
+  const [filmsInfo, setFilmsInfo] = useState<FilmInfo[]>([]);
 
-class ResultSection extends Component<MyProps, MyState> {
-  state: MyState = {
-    filmsInfo: [],
-    loading: true,
-  };
+  useEffect(() => {
+    const getFilmsInfo = async () => {
+      const data = await getResults(searchName);
+      setFilmsInfo(data);
+      setLoading(false);
+    };
+    getFilmsInfo();
+  }, [searchName]);
 
-  getFilmsInfo = async () => {
-    const data = await getResults(this.props.searchName);
-    await this.setState({
-      filmsInfo: data,
-      loading: false,
-    });
-  };
-
-  componentDidMount = async () => {
-    this.getFilmsInfo();
-  };
-
-  componentDidUpdate = async (prevProps: Readonly<MyProps>) => {
-    if (prevProps.searchName !== this.props.searchName) {
-      await this.setState({ loading: true });
-      this.getFilmsInfo();
-    }
-  };
-
-  render(): ReactNode {
-    return (
-      <section className="result-section">
-        {this.state.loading ? (
-          <span className="loader">Searching...</span>
-        ) : (
-          this.state.filmsInfo.map((film) => {
-            return <FilmCard film={film} key={film.id} />;
-          })
-        )}
-      </section>
-    );
-  }
-}
-
-export default ResultSection;
+  return (
+    <section className="result-section">
+      {loading ? (
+        <span className="loader">Searching...</span>
+      ) : (
+        filmsInfo.map((film) => {
+          return <FilmCard film={film} key={film.id} />;
+        })
+      )}
+    </section>
+  );
+};

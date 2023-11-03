@@ -1,4 +1,4 @@
-import { Component, ReactNode } from 'react';
+import { FC } from 'react';
 import { FilmInfo } from '../../types/kp';
 import './index.scss';
 import { FilmCardInfo } from './FilmCardInfo';
@@ -8,13 +8,11 @@ export interface FilmCardProps {
   film: FilmInfo;
 }
 
-export class FilmCard extends Component<FilmCardProps> {
-  render(): ReactNode {
-    return (
-      <article className="film-card">
-        <FilmCardPoster film={this.props.film} />
-        <FilmCardInfo film={this.props.film} />
-      </article>
-    );
-  }
-}
+export const FilmCard: FC<FilmCardProps> = ({ film }) => {
+  return (
+    <article className="film-card">
+      <FilmCardPoster film={film} />
+      <FilmCardInfo film={film} />
+    </article>
+  );
+};
