@@ -1,4 +1,5 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface MyProps {
   searchString: string;
@@ -10,6 +11,7 @@ export const SearchSection: FC<MyProps> = ({
   setSearchString,
 }) => {
   const [inputString, setInputString] = useState(searchString);
+  const navigate = useNavigate();
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputString(e.target.value);
@@ -18,6 +20,7 @@ export const SearchSection: FC<MyProps> = ({
   const onClickButton = () => {
     setSearchString(inputString.trim());
     localStorage.setItem('searchString', inputString.trim());
+    navigate('/1');
   };
 
   return (
