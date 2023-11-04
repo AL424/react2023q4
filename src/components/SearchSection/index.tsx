@@ -1,5 +1,6 @@
 import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './index.scss';
 
 interface MyProps {
   searchString: string;
@@ -24,7 +25,7 @@ export const SearchSection: FC<MyProps> = ({
   };
 
   return (
-    <section className="search-section">
+    <header className="search-section container">
       <input
         type="text"
         placeholder="enter film name..."
@@ -34,6 +35,6 @@ export const SearchSection: FC<MyProps> = ({
       <button type="button" onClick={onClickButton}>
         search
       </button>
-    </section>
+    </header>
   );
 };

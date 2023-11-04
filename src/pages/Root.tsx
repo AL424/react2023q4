@@ -15,11 +15,11 @@ export const Root: FC = () => {
         searchString={searchString}
         setSearchString={setSearchString}
       />
-      <main>
-        <ResultsSection searchName={searchString} />
+      <main className="main">
         <Outlet />
+        <ResultsSection searchName={searchString} />
       </main>
-      <footer>
+      <footer className="container">
         <ErrorButton />
       </footer>
     </>

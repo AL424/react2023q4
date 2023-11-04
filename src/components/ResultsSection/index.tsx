@@ -1,10 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import { getResults } from '../../services/kpApi';
 import { FilmInfo } from '../../types/kp';
-import { FilmCard } from '../FilmCard';
 import './index.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PagesNav } from '../PagesNav';
+import { FilmLink } from '../FilmCard/FilmLink';
 
 interface MyProps {
   searchName?: string;
@@ -52,7 +52,7 @@ export const ResultsSection: FC<MyProps> = ({ searchName }) => {
       ) : (
         <>
           {filmsInfo.map((film) => {
-            return <FilmCard film={film} key={film.id} />;
+            return <FilmLink film={film} key={film.id} />;
           })}
           <PagesNav currentPage={currentPage || 1} totalPages={totalPages} />
         </>

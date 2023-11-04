@@ -1,8 +1,8 @@
 .film-card {
-  display: flex;
-  max-width: 700px;
-  margin: 0 auto;
-  column-gap: 20px;
+  &__header {
+    display: flex;
+    column-gap: 20px;
+  }
   &__img {
     height: 200px;
     object-fit: cover;
@@ -17,7 +17,6 @@
   }
   &__name {
     margin: 0;
-    margin-bottom: 10px;
   }
   &__subtitle {
     opacity: 0.6;
@@ -29,11 +28,15 @@
     margin-right: 10px;
   }
   &__description {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    line-height: 1.6em;
-    height: 6.4em;
+    line-height: 1.6;
+  }
+}
+
+.film-link {
+  display: block;
+  text-decoration: none;
+  border-bottom: 3px solid;
+  &:not(:last-child) {
+    margin-bottom: 10px;
   }
 }
