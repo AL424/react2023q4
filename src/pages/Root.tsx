@@ -16,8 +16,8 @@ export const Root: FC = () => {
         setSearchString={setSearchString}
       />
       <main className="main">
-        <Outlet />
         <ResultsSection searchName={searchString} />
+        <Outlet />
       </main>
       <footer className="container">
         <ErrorButton />
