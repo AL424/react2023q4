@@ -9,8 +9,6 @@ export const Detail: FC = () => {
   const [film, setFilm] = useState<FilmInfo | null>(null);
   const { id } = useParams();
 
-  console.log(id);
-
   useEffect(() => {
     if (id) {
       setLoading(true);
@@ -26,7 +24,7 @@ export const Detail: FC = () => {
   return (
     <section className="detail">
       {loading ? (
-        <span>Loading...</span>
+        <span className="loader">Loading...</span>
       ) : (
         <>{film && <FilmCard film={film} />}</>
       )}

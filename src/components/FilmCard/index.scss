@@ -21,6 +21,8 @@
   }
   &__subtitle {
     opacity: 0.6;
+    display: flex;
+    flex-wrap: wrap;
   }
   &__type {
     margin-right: 30px;

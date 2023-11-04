@@ -27,22 +27,21 @@ export const ResultsSection: FC<MyProps> = ({ searchName }) => {
       : setCurrentPage(pageNumber);
   }, [page, navigate]);
 
-  /* 
-    При изменении поискового запроса и перенаправлении на первую страницу
-    дважды обращаемся к серверу, надо решить эту проблему
-  */
-
   useEffect(() => {
-    setLoading(true);
+    let timer: number;
     if (currentPage) {
+      setLoading(true);
       const getFilmsInfo = async () => {
         const data = await getResults(currentPage, searchName);
         setFilmsInfo(data.docs);
         setTotalPages(data.pages);
         setLoading(false);
       };
-      getFilmsInfo();
+      timer = setTimeout(() => {
+        getFilmsInfo();
+      }, 100);
     }
+    return () => clearTimeout(timer);
   }, [searchName, currentPage]);
 
   return (
