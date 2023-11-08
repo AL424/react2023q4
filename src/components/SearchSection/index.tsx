@@ -1,7 +1,7 @@
 import { ChangeEvent, FC, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.scss';
-import { SearchString } from '../../context/searchString';
+import { SearchString } from '../../context/SearchString';
 
 export const SearchSection: FC = () => {
   const context = useContext(SearchString);

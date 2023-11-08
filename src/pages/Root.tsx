@@ -3,7 +3,7 @@ import { SearchSection } from '../components/SearchSection';
 import { ResultsSection } from '../components/ResultsSection';
 import { Outlet } from 'react-router-dom';
 import { ErrorButton } from '../components/ErrorButton';
-import { SearchString } from '../context/searchString';
+import { SearchString } from '../context/SearchString';
 
 export const Root: FC = () => {
   const [searchString, setSearchString] = useState(

@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PagesNav } from '../PagesNav';
 import { FilmLink } from '../FilmCard/FilmLink';
 import { ItemPerPageType, ItemsPerPage } from '../ItemsPerPage';
-import { SearchString } from '../../context/searchString';
+import { SearchString } from '../../context/SearchString';
 
 export const ResultsSection: FC = () => {
   const { searchString } = useContext(SearchString);
