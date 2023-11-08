@@ -1,17 +1,11 @@
-import { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
+import { ChangeEvent, FC, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.scss';
+import { SearchString } from '../../context/searchString';
 
-interface MyProps {
-  searchString: string;
-  setSearchString: Dispatch<SetStateAction<string>>;
-}
-
-export const SearchSection: FC<MyProps> = ({
-  searchString,
-  setSearchString,
-}) => {
-  const [inputString, setInputString] = useState(searchString);
+export const SearchSection: FC = () => {
+  const context = useContext(SearchString);
+  const [inputString, setInputString] = useState(context.searchString);
   const navigate = useNavigate();
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +13,7 @@ export const SearchSection: FC<MyProps> = ({
   };
 
   const onClickButton = () => {
-    setSearchString(inputString.trim());
+    context.setSearchString(inputString.trim());
     localStorage.setItem('searchString', inputString.trim());
     navigate('/1');
   };

@@ -3,6 +3,7 @@ import { SearchSection } from '../components/SearchSection';
 import { ResultsSection } from '../components/ResultsSection';
 import { Outlet } from 'react-router-dom';
 import { ErrorButton } from '../components/ErrorButton';
+import { SearchString } from '../context/searchString';
 
 export const Root: FC = () => {
   const [searchString, setSearchString] = useState(
@@ -10,18 +11,20 @@ export const Root: FC = () => {
   );
 
   return (
-    <>
-      <SearchSection
-        searchString={searchString}
-        setSearchString={setSearchString}
-      />
+    <SearchString.Provider
+      value={{
+        searchString,
+        setSearchString,
+      }}
+    >
+      <SearchSection />
       <main className="main">
-        <ResultsSection searchName={searchString} />
+        <ResultsSection />
         <Outlet />
       </main>
       <footer className="container">
         <ErrorButton />
       </footer>
-    </>
+    </SearchString.Provider>
   );
 };

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { getResults } from '../../services/kpApi';
 import { FilmInfo } from '../../types/kp';
 import './index.scss';
@@ -6,12 +6,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PagesNav } from '../PagesNav';
 import { FilmLink } from '../FilmCard/FilmLink';
 import { ItemPerPageType, ItemsPerPage } from '../ItemsPerPage';
+import { SearchString } from '../../context/searchString';
 
-interface MyProps {
-  searchName?: string;
-}
-
-export const ResultsSection: FC<MyProps> = ({ searchName }) => {
+export const ResultsSection: FC = () => {
+  const { searchString } = useContext(SearchString);
   const [loading, setLoading] = useState(true);
   const [filmsInfo, setFilmsInfo] = useState<FilmInfo[]>([]);
   const [currentPage, setCurrentPage] = useState<number>();
@@ -34,7 +32,7 @@ export const ResultsSection: FC<MyProps> = ({ searchName }) => {
     if (currentPage) {
       setLoading(true);
       const getFilmsInfo = async () => {
-        const data = await getResults(currentPage, itemPerPage, searchName);
+        const data = await getResults(currentPage, itemPerPage, searchString);
         setFilmsInfo(data.docs);
         setTotalPages(data.pages);
         setLoading(false);
@@ -44,7 +42,7 @@ export const ResultsSection: FC<MyProps> = ({ searchName }) => {
       }, 100);
     }
     return () => clearTimeout(timer);
-  }, [searchName, currentPage, itemPerPage]);
+  }, [searchString, currentPage, itemPerPage]);
 
   return (
     <section className="result-section">
