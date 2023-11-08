@@ -1,0 +1,9 @@
+.items-per-page__label {
+  cursor: pointer;
+  input {
+    cursor: pointer;
+  }
+  &:not(:last-child) {
+    margin-right: 20px;
+  }
+}
