@@ -5,6 +5,7 @@ import './index.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PagesNav } from '../PagesNav';
 import { FilmLink } from '../FilmCard/FilmLink';
+import { ItemPerPageType, ItemsPerPage } from '../ItemsPerPage';
 
 interface MyProps {
   searchName?: string;
@@ -15,6 +16,7 @@ export const ResultsSection: FC<MyProps> = ({ searchName }) => {
   const [filmsInfo, setFilmsInfo] = useState<FilmInfo[]>([]);
   const [currentPage, setCurrentPage] = useState<number>();
   const [totalPages, setTotalPages] = useState(1);
+  const [itemPerPage, setItemPerPage] = useState<ItemPerPageType>(10);
 
   const navigate = useNavigate();
   const { page } = useParams();
@@ -32,7 +34,7 @@ export const ResultsSection: FC<MyProps> = ({ searchName }) => {
     if (currentPage) {
       setLoading(true);
       const getFilmsInfo = async () => {
-        const data = await getResults(currentPage, searchName);
+        const data = await getResults(currentPage, itemPerPage, searchName);
         setFilmsInfo(data.docs);
         setTotalPages(data.pages);
         setLoading(false);
@@ -42,7 +44,7 @@ export const ResultsSection: FC<MyProps> = ({ searchName }) => {
       }, 100);
     }
     return () => clearTimeout(timer);
-  }, [searchName, currentPage]);
+  }, [searchName, currentPage, itemPerPage]);
 
   return (
     <section className="result-section">
@@ -50,6 +52,10 @@ export const ResultsSection: FC<MyProps> = ({ searchName }) => {
         <span className="loader">Searching...</span>
       ) : (
         <>
+          <ItemsPerPage
+            itemPerPage={itemPerPage}
+            setItemPerPage={setItemPerPage}
+          />
           {filmsInfo.map((film) => {
             return <FilmLink film={film} key={film.id} />;
           })}

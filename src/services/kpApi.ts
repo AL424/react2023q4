@@ -8,13 +8,17 @@ const instance = axios.create({
   },
 });
 
-export const getResults = async (page: number, name?: string) => {
+export const getResults = async (
+  page: number,
+  limit: number,
+  name?: string
+) => {
   const resp = await instance.get<KinopoiskResp>('', {
     params: {
       name: name || undefined,
       selectFields: 'id name description year poster.url type genres',
       page: page,
-      limit: 10,
+      limit: limit,
     },
   });
 
