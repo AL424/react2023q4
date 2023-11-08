@@ -1,17 +1,17 @@
 import { FC, useContext, useEffect, useState } from 'react';
 import { getResults } from '../../services/kpApi';
-import { FilmInfo } from '../../types/kp';
 import './index.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PagesNav } from '../PagesNav';
 import { FilmLink } from '../FilmCard/FilmLink';
 import { ItemPerPageType, ItemsPerPage } from '../ItemsPerPage';
 import { SearchString } from '../../context/SearchString';
+import { FilmsInfo } from '../../context/FilmsInfo';
 
 export const ResultsSection: FC = () => {
   const { searchString } = useContext(SearchString);
+  const { filmsInfo, setFilmsInfo } = useContext(FilmsInfo);
   const [loading, setLoading] = useState(true);
-  const [filmsInfo, setFilmsInfo] = useState<FilmInfo[]>([]);
   const [currentPage, setCurrentPage] = useState<number>();
   const [totalPages, setTotalPages] = useState(1);
   const [itemPerPage, setItemPerPage] = useState<ItemPerPageType>(10);
@@ -42,7 +42,7 @@ export const ResultsSection: FC = () => {
       }, 100);
     }
     return () => clearTimeout(timer);
-  }, [searchString, currentPage, itemPerPage]);
+  }, [searchString, currentPage, itemPerPage, setFilmsInfo]);
 
   return (
     <section className="result-section">

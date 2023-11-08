@@ -4,11 +4,14 @@ import { ResultsSection } from '../components/ResultsSection';
 import { Outlet } from 'react-router-dom';
 import { ErrorButton } from '../components/ErrorButton';
 import { SearchString } from '../context/SearchString';
+import { FilmInfo } from '../types/kp';
+import { FilmsInfo } from '../context/FilmsInfo';
 
 export const Root: FC = () => {
   const [searchString, setSearchString] = useState(
     localStorage.getItem('searchString') || ''
   );
+  const [filmsInfo, setFilmsInfo] = useState<FilmInfo[]>([]);
 
   return (
     <SearchString.Provider
@@ -19,7 +22,14 @@ export const Root: FC = () => {
     >
       <SearchSection />
       <main className="main">
-        <ResultsSection />
+        <FilmsInfo.Provider
+          value={{
+            filmsInfo,
+            setFilmsInfo,
+          }}
+        >
+          <ResultsSection />
+        </FilmsInfo.Provider>
         <Outlet />
       </main>
       <footer className="container">
