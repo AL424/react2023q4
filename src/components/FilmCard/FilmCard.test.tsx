@@ -86,7 +86,6 @@ describe('Clicking the close button hides the component.', () => {
     expect(button).toBeInTheDocument();
   });
   test('Close button work correctly', () => {
-    screen.debug();
     const button = screen.getByText('close');
     const href = button.getAttribute('href');
     expect(href).toBe(`/${reactRouterDom.useParams().page}`);

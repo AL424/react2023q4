@@ -15,7 +15,7 @@ export const FilmCard: FC<FilmCardProps> = ({ film }) => {
   const { page } = useParams();
 
   return (
-    <div className="film-card">
+    <div className="film-card" data-testid="film-card">
       <div className="film-card__header">
         <FilmCardPoster film={film} />
         <div className="film-card__info">

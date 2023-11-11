@@ -24,7 +24,9 @@ export const Detail: FC = () => {
   return (
     <section className="detail">
       {loading ? (
-        <span className="loader">Loading...</span>
+        <span className="loader" data-testid="loader">
+          Loading...
+        </span>
       ) : (
         <>{film && <FilmCard film={film} />}</>
       )}
