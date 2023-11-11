@@ -72,3 +72,23 @@ describe('FilmCard component correctly', () => {
     });
   });
 });
+
+describe('Clicking the close button hides the component.', () => {
+  beforeEach(() => {
+    render(
+      <reactRouterDom.BrowserRouter>
+        <FilmCard film={film} />
+      </reactRouterDom.BrowserRouter>
+    );
+  });
+  test('Close button dislayed', () => {
+    const button = screen.getByText('close');
+    expect(button).toBeInTheDocument();
+  });
+  test('Close button work correctly', () => {
+    screen.debug();
+    const button = screen.getByText('close');
+    const href = button.getAttribute('href');
+    expect(href).toBe(`/${reactRouterDom.useParams().page}`);
+  });
+});
