@@ -3,7 +3,7 @@ import { FilmCardProps } from '.';
 
 export const FilmCardDescription: FC<FilmCardProps> = ({ film }) => {
   return (
-    <p className="film-card__description">
+    <p className="film-card__description" data-testid="description">
       {film.description || 'описание отсутствует'}
     </p>
   );
