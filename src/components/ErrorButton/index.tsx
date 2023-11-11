@@ -1,6 +1,8 @@
 import { FC, useState } from 'react';
 import './index.scss';
 
+export const btnText = 'break app';
+
 export const ErrorButton: FC = () => {
   const [error, setError] = useState(false);
 
@@ -12,7 +14,7 @@ export const ErrorButton: FC = () => {
       className="error-button"
       onClick={() => setError(true)}
     >
-      break app
+      {btnText}
     </button>
   );
 };
