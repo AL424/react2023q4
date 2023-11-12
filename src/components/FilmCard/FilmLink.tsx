@@ -6,7 +6,11 @@ import { FilmCardTittle } from './FilmCardTittle';
 
 export const FilmLink: FC<FilmCardProps> = ({ film }) => {
   return (
-    <Link to={`./film/${film.id}`} className="film-link">
+    <Link
+      to={`./film/${film.id}`}
+      className="film-link"
+      data-testid="film-link"
+    >
       <FilmCardTittle film={film} />
     </Link>
   );
