@@ -1,0 +1,39 @@
+.pages-nav {
+  padding: 20px;
+  font-size: 1.5rem;
+
+  .current-page {
+    padding: 0 0.2rem;
+  }
+
+  .total-pages {
+    opacity: 0.6;
+    font-size: 1rem;
+  }
+
+  span.prev {
+    opacity: 0.2;
+    margin-right: 20px;
+  }
+
+  span.next {
+    opacity: 0.2;
+    margin-left: 20px;
+  }
+
+  a {
+    all: unset;
+    cursor: pointer;
+    display: inline-block;
+    transition: transform 0.5s;
+    &.prev {
+      margin-right: 20px;
+    }
+    &.next {
+      margin-left: 20px;
+    }
+    &:hover {
+      transform: scale(1.4);
+    }
+  }
+}

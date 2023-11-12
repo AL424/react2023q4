@@ -1,0 +1,39 @@
+footer {
+  padding: 10px 0 20px;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+}
+
+.detail {
+  width: 50%;
+  padding: 10px;
+}
+
+.detail,
+.result-section {
+  transition: 0.5s;
+}
+
+.container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.loader {
+  display: block;
+  font-size: 1.5rem;
+  text-align: center;
+  animation: loader 1.5s ease-in infinite alternate;
+}
+
+@keyframes loader {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 0.3;
+  }
+}
