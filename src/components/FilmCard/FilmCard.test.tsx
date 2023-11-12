@@ -36,7 +36,7 @@ vi.mock('react-router-dom', async () => {
 
 vi.spyOn(reactRouterDom, 'useParams').mockReturnValue({ page: '1' });
 
-describe('FilmCard component correctly', () => {
+describe('Tests for the Detailed Card component:', () => {
   beforeEach(() => {
     render(
       <reactRouterDom.BrowserRouter>
@@ -45,30 +45,32 @@ describe('FilmCard component correctly', () => {
     );
   });
 
-  ['type', 'name', 'description', 'year'].forEach((item) => {
-    test(`FilmCard ${item} displayed correctly`, () => {
-      const element = screen.getByTestId(item);
-      const textContent = element.textContent;
-      expect(element).toBeInTheDocument();
-      expect(textContent).toBe(String(film[item]));
+  describe('Detailed card component correctly displays the detailed card data', () => {
+    ['type', 'name', 'description', 'year'].forEach((item) => {
+      test(`FilmCard ${item} displayed correctly`, () => {
+        const element = screen.getByTestId(item);
+        const textContent = element.textContent;
+        expect(element).toBeInTheDocument();
+        expect(textContent).toBe(String(film[item]));
+      });
     });
-  });
 
-  test('FilmCard poster displayed correctly', () => {
-    const poster = screen.getByTestId('poster');
-    const url = poster.getAttribute('src');
-    expect(poster).toBeInTheDocument();
-    expect(url).toBe(film.poster?.url);
-  });
+    test('FilmCard poster displayed correctly', () => {
+      const poster = screen.getByTestId('poster');
+      const url = poster.getAttribute('src');
+      expect(poster).toBeInTheDocument();
+      expect(url).toBe(film.poster?.url);
+    });
 
-  test('FilmCard genres displayed correctly', () => {
-    const { genres } = film;
-    if (!genres) return;
-    const elements = screen.getAllByTestId('genres');
-    elements.forEach((item, index) => {
-      expect(item).toBeInTheDocument();
-      const textContent = item.textContent;
-      expect(textContent).toBe(genres[index].name);
+    test('FilmCard genres displayed correctly', () => {
+      const { genres } = film;
+      if (!genres) return;
+      const elements = screen.getAllByTestId('genres');
+      elements.forEach((item, index) => {
+        expect(item).toBeInTheDocument();
+        const textContent = item.textContent;
+        expect(textContent).toBe(genres[index].name);
+      });
     });
   });
 });

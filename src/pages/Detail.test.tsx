@@ -22,7 +22,7 @@ vi.mock('../components/FilmCard', () => ({
   FilmCard: () => <div data-testid="film-card" />,
 }));
 
-describe('Loader displayed correctly', () => {
+describe('Loading indicator is displayed while fetching data', () => {
   beforeEach(() => {
     render(
       <reactRouterDom.BrowserRouter>
