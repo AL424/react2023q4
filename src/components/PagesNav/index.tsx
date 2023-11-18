@@ -1,32 +1,41 @@
 import { FC } from 'react';
 import './index.scss';
-import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changePage } from '../../store/paramsSlice';
 
 interface MyProps {
-  currentPage: number;
   totalPages: number;
 }
 
-export const PagesNav: FC<MyProps> = ({ currentPage, totalPages }) => {
+export const PagesNav: FC<MyProps> = ({ totalPages }) => {
+  const currentPage = useAppSelector((state) => state.params.page);
+  const dispatch = useAppDispatch();
+
   return (
     <div className="pages-nav">
-      {currentPage <= 1 ? (
-        <span className="prev">❮</span>
-      ) : (
-        <Link to={`/${currentPage - 1}`} className="prev">
-          ❮
-        </Link>
-      )}
+      <button
+        type="button"
+        className="prev"
+        disabled={currentPage <= 1}
+        onClick={() => {
+          dispatch(changePage(currentPage - 1));
+        }}
+      >
+        ❮
+      </button>
       <span className="current-page">{currentPage}</span>
       <span>/</span>
       <span className="total-pages">{totalPages}</span>
-      {currentPage >= totalPages ? (
-        <span className="next">❯</span>
-      ) : (
-        <Link to={`/${currentPage + 1}`} className="next">
-          ❯
-        </Link>
-      )}
+      <button
+        type="button"
+        className="next"
+        disabled={currentPage >= totalPages}
+        onClick={() => {
+          dispatch(changePage(currentPage + 1));
+        }}
+      >
+        ❯
+      </button>
     </div>
   );
 };
