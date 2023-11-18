@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { FilmInfo, KinopoiskResp } from '../types/kp';
+import { ItemPerPageType } from '../components/ItemsPerPage';
 
 const instance = axios.create({
   baseURL: 'https://api.kinopoisk.dev/v1.3/movie',
@@ -8,17 +9,17 @@ const instance = axios.create({
   },
 });
 
-export const getResults = async (
-  page: number,
-  limit: number,
-  name?: string
-) => {
+export type Params = {
+  page: number;
+  limit: ItemPerPageType;
+  name?: string;
+};
+
+export const getResults = async (params: Params) => {
   const resp = await instance.get<KinopoiskResp>('', {
     params: {
-      name: name || undefined,
+      ...params,
       selectFields: 'id name description year poster.url type genres',
-      page: page,
-      limit: limit,
     },
   });
 
