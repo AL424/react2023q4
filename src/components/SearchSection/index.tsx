@@ -1,11 +1,13 @@
-import { ChangeEvent, FC, useContext, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.scss';
-import { SearchString } from '../../context/SearchString';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeName } from '../../store/paramsSlice';
 
 export const SearchSection: FC = () => {
-  const context = useContext(SearchString);
-  const [inputString, setInputString] = useState(context.searchString);
+  const dispatch = useAppDispatch();
+  const string = useAppSelector((state) => state.params.name);
+  const [inputString, setInputString] = useState(string || '');
   const navigate = useNavigate();
 
   const onChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -13,8 +15,7 @@ export const SearchSection: FC = () => {
   };
 
   const onClickButton = () => {
-    context.setSearchString(inputString.trim());
-    localStorage.setItem('searchString', inputString.trim());
+    dispatch(changeName(inputString));
     navigate('/1');
   };
 

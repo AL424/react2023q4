@@ -4,17 +4,18 @@ import './index.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PagesNav } from '../PagesNav';
 import { FilmLink } from '../FilmCard/FilmLink';
-import { ItemPerPageType, ItemsPerPage } from '../ItemsPerPage';
-import { SearchString } from '../../context/SearchString';
+import { ItemsPerPage } from '../ItemsPerPage';
 import { FilmsInfo } from '../../context/FilmsInfo';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changePage } from '../../store/paramsSlice';
 
 export const ResultsSection: FC = () => {
-  const { searchString } = useContext(SearchString);
   const { filmsInfo, setFilmsInfo } = useContext(FilmsInfo);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState<number>();
   const [totalPages, setTotalPages] = useState(1);
-  const [itemPerPage, setItemPerPage] = useState<ItemPerPageType>(10);
+
+  const params = useAppSelector((state) => state.params);
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
   const { page } = useParams();
@@ -24,25 +25,23 @@ export const ResultsSection: FC = () => {
 
     isNaN(pageNumber)
       ? navigate('/1', { replace: true })
-      : setCurrentPage(pageNumber);
-  }, [page, navigate]);
+      : dispatch(changePage(pageNumber));
+  }, [page, navigate, dispatch]);
 
   useEffect(() => {
-    let timer: number;
-    if (currentPage) {
-      setLoading(true);
-      const getFilmsInfo = async () => {
-        const data = await getResults(currentPage, itemPerPage, searchString);
-        setFilmsInfo(data.docs);
-        setTotalPages(data.pages);
-        setLoading(false);
-      };
-      timer = setTimeout(() => {
-        getFilmsInfo();
-      }, 100);
-    }
+    setLoading(true);
+    const getFilmsInfo = async () => {
+      const data = await getResults(params);
+      setFilmsInfo(data.docs);
+      setTotalPages(data.pages);
+      setLoading(false);
+    };
+    const timer = setTimeout(() => {
+      getFilmsInfo();
+    }, 100);
+
     return () => clearTimeout(timer);
-  }, [searchString, currentPage, itemPerPage, setFilmsInfo]);
+  }, [params, setFilmsInfo]);
 
   return (
     <section className="result-section">
@@ -50,14 +49,11 @@ export const ResultsSection: FC = () => {
         <span className="loader">Searching...</span>
       ) : (
         <>
-          <ItemsPerPage
-            itemPerPage={itemPerPage}
-            setItemPerPage={setItemPerPage}
-          />
+          <ItemsPerPage />
           {filmsInfo.map((film) => {
             return <FilmLink film={film} key={film.id} />;
           })}
-          <PagesNav currentPage={currentPage || 1} totalPages={totalPages} />
+          <PagesNav totalPages={totalPages} />
         </>
       )}
     </section>
