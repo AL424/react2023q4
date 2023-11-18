@@ -1,17 +1,16 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './index.scss';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeLimit } from '../../store/paramsSlice';
 
 export type ItemPerPageType = 5 | 10 | 20;
 
-interface MyProps {
-  itemPerPage: ItemPerPageType;
-  setItemPerPage: Dispatch<SetStateAction<ItemPerPageType>>;
-}
-
 const ItemPerPageArr: ItemPerPageType[] = [5, 10, 20];
 
-export const ItemsPerPage: FC<MyProps> = ({ itemPerPage, setItemPerPage }) => {
+export const ItemsPerPage: FC = () => {
+  const limit = useAppSelector((state) => state.params.limit);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   return (
@@ -24,10 +23,10 @@ export const ItemsPerPage: FC<MyProps> = ({ itemPerPage, setItemPerPage }) => {
               type="radio"
               name="items"
               value={item}
-              checked={itemPerPage === item}
+              checked={limit === item}
               onChange={() => {
                 navigate('/1');
-                setItemPerPage(item);
+                dispatch(changeLimit(item));
               }}
             />
             {item}

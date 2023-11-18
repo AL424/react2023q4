@@ -11,29 +11,26 @@
     font-size: 1rem;
   }
 
-  span.prev {
-    opacity: 0.2;
-    margin-right: 20px;
-  }
-
-  span.next {
-    opacity: 0.2;
-    margin-left: 20px;
-  }
-
-  a {
+  .prev,
+  .next {
     all: unset;
     cursor: pointer;
     display: inline-block;
     transition: transform 0.5s;
-    &.prev {
-      margin-right: 20px;
-    }
-    &.next {
-      margin-left: 20px;
-    }
     &:hover {
       transform: scale(1.4);
     }
+    &:disabled {
+      pointer-events: none;
+      opacity: 0.2;
+    }
+  }
+
+  .prev {
+    margin-right: 20px;
+  }
+
+  .next {
+    margin-left: 20px;
   }
 }
