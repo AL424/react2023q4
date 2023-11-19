@@ -1,34 +1,20 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { useParams } from 'react-router-dom';
-import { FilmInfo } from '../types/kp';
-import { getFilmById } from '../services/kpApi';
 import { FilmCard } from '../components/FilmCard';
+import { useGetFilmByIdQuery } from '../store/kpApi';
 
 export const Detail: FC = () => {
-  const [loading, setLoading] = useState(true);
-  const [film, setFilm] = useState<FilmInfo | null>(null);
   const { id } = useParams();
-
-  useEffect(() => {
-    if (id) {
-      setLoading(true);
-      const getFilm = async () => {
-        const data = await getFilmById(id);
-        setFilm(data);
-        setLoading(false);
-      };
-      getFilm();
-    }
-  }, [id]);
+  const { data, isFetching } = useGetFilmByIdQuery(id || '');
 
   return (
     <section className="detail">
-      {loading ? (
+      {isFetching ? (
         <span className="loader" data-testid="loader">
           Loading...
         </span>
       ) : (
-        <>{film && <FilmCard film={film} />}</>
+        <>{data && <FilmCard film={data} />}</>
       )}
     </section>
   );

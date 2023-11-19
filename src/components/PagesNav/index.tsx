@@ -2,36 +2,42 @@ import { FC } from 'react';
 import './index.scss';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changePage } from '../../store/paramsSlice';
+import { useGetFilmsQuery } from '../../store/kpApi';
+import { useNavigate } from 'react-router-dom';
 
-interface MyProps {
-  totalPages: number;
-}
-
-export const PagesNav: FC<MyProps> = ({ totalPages }) => {
-  const currentPage = useAppSelector((state) => state.params.page);
+export const PagesNav: FC = () => {
+  const params = useAppSelector((state) => state.params);
   const dispatch = useAppDispatch();
+
+  const { data } = useGetFilmsQuery(params);
+  const navigate = useNavigate();
+
+  const onChangePage = (page: number) => {
+    navigate(`/${page}`);
+    dispatch(changePage(page));
+  };
 
   return (
     <div className="pages-nav">
       <button
         type="button"
         className="prev"
-        disabled={currentPage <= 1}
+        disabled={!data || params.page <= 1}
         onClick={() => {
-          dispatch(changePage(currentPage - 1));
+          onChangePage(params.page - 1);
         }}
       >
         ❮
       </button>
-      <span className="current-page">{currentPage}</span>
+      <span className="current-page">{params.page}</span>
       <span>/</span>
-      <span className="total-pages">{totalPages}</span>
+      <span className="total-pages">{data?.pages || 0}</span>
       <button
         type="button"
         className="next"
-        disabled={currentPage >= totalPages}
+        disabled={!data || params.page >= data.pages}
         onClick={() => {
-          dispatch(changePage(currentPage + 1));
+          onChangePage(params.page + 1);
         }}
       >
         ❯

@@ -1,19 +1,14 @@
-import { FC, useContext, useEffect, useState } from 'react';
-import { getResults } from '../../services/kpApi';
+import { FC, useEffect } from 'react';
 import './index.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { PagesNav } from '../PagesNav';
 import { FilmLink } from '../FilmCard/FilmLink';
 import { ItemsPerPage } from '../ItemsPerPage';
-import { FilmsInfo } from '../../context/FilmsInfo';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changePage } from '../../store/paramsSlice';
+import { useGetFilmsQuery } from '../../store/kpApi';
 
 export const ResultsSection: FC = () => {
-  const { filmsInfo, setFilmsInfo } = useContext(FilmsInfo);
-  const [loading, setLoading] = useState(true);
-  const [totalPages, setTotalPages] = useState(1);
-
   const params = useAppSelector((state) => state.params);
   const dispatch = useAppDispatch();
 
@@ -28,32 +23,19 @@ export const ResultsSection: FC = () => {
       : dispatch(changePage(pageNumber));
   }, [page, navigate, dispatch]);
 
-  useEffect(() => {
-    setLoading(true);
-    const getFilmsInfo = async () => {
-      const data = await getResults(params);
-      setFilmsInfo(data.docs);
-      setTotalPages(data.pages);
-      setLoading(false);
-    };
-    const timer = setTimeout(() => {
-      getFilmsInfo();
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, [params, setFilmsInfo]);
+  const { data, isFetching } = useGetFilmsQuery(params);
 
   return (
     <section className="result-section">
-      {loading ? (
+      {isFetching ? (
         <span className="loader">Searching...</span>
       ) : (
         <>
           <ItemsPerPage />
-          {filmsInfo.map((film) => {
+          {data?.docs.map((film) => {
             return <FilmLink film={film} key={film.id} />;
           })}
-          <PagesNav totalPages={totalPages} />
+          <PagesNav />
         </>
       )}
     </section>
