@@ -1,6 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Params } from '../services/kpApi';
 import { ItemPerPageType } from '../components/ItemsPerPage';
+
+export type Params = {
+  page: number;
+  limit: ItemPerPageType;
+  name?: string;
+};
 
 const initialState: Params = {
   name: localStorage.getItem('searchString') || undefined,
@@ -16,12 +21,14 @@ const paramsSlice = createSlice({
       const string = action.payload;
       localStorage.setItem('searchString', string);
       state.name = string;
+      state.page = 1;
     },
     changePage(state, action: PayloadAction<number>) {
       state.page = action.payload;
     },
     changeLimit(state, action: PayloadAction<ItemPerPageType>) {
       state.limit = action.payload;
+      state.page = 1;
     },
   },
 });
